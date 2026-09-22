@@ -1,0 +1,97 @@
+{
+  "scan_id": "kavach-amz-9281a",
+  "timestamp": "2026-09-22T12:00:00Z",
+  "scan_type": "text",
+  "threat_score": 92,
+  "verdict": "CRITICAL_SCAM",
+  "verdict_label": "Critical Advance-Fee Scam Detected",
+  "executive_summary": "High-confidence employment advance-fee scam identified. The document impersonates Amazon Web Services HR, demands an upfront refundable equipment deposit of $450 via Bitcoin or Zelle for MacBook provisioning, shifts communication to Telegram, and directs to a 3-day-old typosquat domain.",
+  "breakdown": {
+    "domain_freshness_score": 95,
+    "payment_demands_score": 95,
+    "chat_redirects_score": 90,
+    "free_mailbox_score": 85
+  },
+  "domain_info": {
+    "domain": "amazon-careers-verify.xyz",
+    "registrar": "NameCheap, Inc.",
+    "creation_date": "2026-09-19T10:14:00Z",
+    "age_days": 3,
+    "is_newly_registered": true,
+    "tld": ".xyz",
+    "tld_risk": "HIGH",
+    "typosquatting_target": "Amazon",
+    "similarity_ratio": 0.94,
+    "status_summary": "Fresh High-Risk Domain / Privacy Redacted"
+  },
+  "flags": [
+    {
+      "id": "flag-adv-fee-01",
+      "category": "ADVANCE_FEE",
+      "severity": "CRITICAL",
+      "title": "Refundable Security Deposit Mandate",
+      "matched_text": "refundable equipment security deposit of $450",
+      "start_index": 204,
+      "end_index": 249,
+      "weight": 35,
+      "recommendation": "Legitimate enterprise employers never require candidates to wire refundable deposits for work equipment."
+    },
+    {
+      "id": "flag-adv-payment-02",
+      "category": "ADVANCE_FEE",
+      "severity": "CRITICAL",
+      "title": "Irreversible Cryptocurrency / Zelle Payment Demand",
+      "matched_text": "Bitcoin wallet or Zelle",
+      "start_index": 272,
+      "end_index": 295,
+      "weight": 30,
+      "recommendation": "Demands for untraceable crypto or peer-to-peer wire payments are hallmarks of advance-fee recruitment fraud."
+    },
+    {
+      "id": "flag-channel-03",
+      "category": "OFF_PLATFORM",
+      "severity": "WARNING",
+      "title": "Redirection to Unmonitored Telegram Channel",
+      "matched_text": "Telegram @AmazonLeadRecruiter",
+      "start_index": 489,
+      "end_index": 518,
+      "weight": 20,
+      "recommendation": "Enterprise recruitment and onboarding are never conducted over private consumer Telegram handles."
+    },
+    {
+      "id": "flag-mail-04",
+      "category": "MAIL_REPUTATION",
+      "severity": "WARNING",
+      "title": "Free Consumer Webmail Impersonating Enterprise HR",
+      "matched_text": "amazon.recruitment.desk@gmail.com",
+      "start_index": 578,
+      "end_index": 611,
+      "weight": 15,
+      "recommendation": "Official Amazon recruiters exclusively send messages from authenticated @amazon.com corporate email systems."
+    },
+    {
+      "id": "flag-domain-05",
+      "category": "DOMAIN_AGE",
+      "severity": "CRITICAL",
+      "title": "Brand Typosquatting on 3-Day-Old Domain",
+      "matched_text": "amazon-careers-verify.xyz",
+      "start_index": 629,
+      "end_index": 654,
+      "weight": 25,
+      "recommendation": "The target domain was registered 3 days ago mimicking Amazon's brand with a high-risk .xyz TLD."
+    }
+  ],
+  "safe_replies": [
+    {
+      "type": "corporate_email_verification",
+      "label": "Demand Corporate Email Verification",
+      "content": "Thank you for the correspondence. In accordance with standard cybersecurity verification procedures, please re-send this offer directly from your official corporate @amazon.com email domain and provide your direct corporate telephone extension."
+    },
+    {
+      "type": "payment_policy_refusal",
+      "label": "Refuse Upfront Payment Policy",
+      "content": "Standard employment regulations strictly prohibit candidates from paying equipment deposits or courier fees. Please arrange for all required workstation hardware to be provisioned directly by Amazon IT Logistics at zero candidate cost."
+    }
+  ],
+  "raw_content": "Dear Candidate,\n\nWe are pleased to offer you the position of Senior Cloud Operations Specialist at Amazon Web Services (AWS) India. Your starting compensation will be $155,000 USD per annum.\n\nTo initiate remote workstation provisioning, you are required to deposit a refundable equipment security deposit of $450 to our verified Bitcoin wallet or Zelle before onboarding to cover Apple MacBook transit insurance. This amount is 100% reimbursed on your first monthly payroll.\n\nPlease connect immediately with our Talent Acquisition Lead on Telegram @AmazonLeadRecruiter to confirm your payment receipt.\n\nWarm regards,\nAWS Recruiting Team\namazon.recruitment.desk@gmail.com\nPortal: https://amazon-careers-verify.xyz/onboarding"
+}

@@ -1,0 +1,86 @@
+{
+  "scan_id": "kavach-rnt-8412b",
+  "timestamp": "2026-09-22T12:05:00Z",
+  "scan_type": "text",
+  "threat_score": 84,
+  "verdict": "CRITICAL_SCAM",
+  "verdict_label": "Critical Advance-Fee Rental Fraud Detected",
+  "executive_summary": "High-risk rental advance-fee scam identified. The purported landlord claims to be abroad on an emergency missionary mission, demands an advance wire transfer of $1,200 before allowing an in-person viewing, redirects to WhatsApp, and promises keys via FedEx courier.",
+  "breakdown": {
+    "domain_freshness_score": 80,
+    "payment_demands_score": 90,
+    "chat_redirects_score": 85,
+    "free_mailbox_score": 80
+  },
+  "domain_info": {
+    "domain": "parkave-luxury-rentals.top",
+    "registrar": "Hostinger Operations, UAB",
+    "creation_date": "2026-09-15T04:20:00Z",
+    "age_days": 7,
+    "is_newly_registered": true,
+    "tld": ".top",
+    "tld_risk": "HIGH",
+    "typosquatting_target": "Park Avenue Properties",
+    "similarity_ratio": 0.82,
+    "status_summary": "Newly Registered Suspicious TLD (.top)"
+  },
+  "flags": [
+    {
+      "id": "flag-rnt-wire-01",
+      "category": "RENTAL_FRAUD",
+      "severity": "CRITICAL",
+      "title": "Wire Transfer Demanded Prior to In-Person Viewing",
+      "matched_text": "wire the first month rent and security deposit of $1,200 before viewing",
+      "start_index": 286,
+      "end_index": 357,
+      "weight": 35,
+      "recommendation": "Never wire rental deposits or sign leases for real estate properties without an in-person physical inspection."
+    },
+    {
+      "id": "flag-rnt-abroad-02",
+      "category": "RENTAL_FRAUD",
+      "severity": "CRITICAL",
+      "title": "Classic Absentee Landlord Pretext (Landlord Abroad)",
+      "matched_text": "landlord is currently abroad in the United Kingdom",
+      "start_index": 140,
+      "end_index": 190,
+      "weight": 25,
+      "recommendation": "Scammers routinely fabricate tales of being abroad or on humanitarian missions to explain why they cannot show the unit."
+    },
+    {
+      "id": "flag-rnt-keys-03",
+      "category": "RENTAL_FRAUD",
+      "severity": "WARNING",
+      "title": "Courier Delivery Promise for Keys Post-Wire",
+      "matched_text": "keys will be dispatched via FedEx courier",
+      "start_index": 420,
+      "end_index": 461,
+      "weight": 20,
+      "recommendation": "Legitimate landlords or licensed real estate brokers conduct key handovers in person after escrow lease signing."
+    },
+    {
+      "id": "flag-rnt-channel-04",
+      "category": "OFF_PLATFORM",
+      "severity": "WARNING",
+      "title": "Unverified WhatsApp Contact Channel",
+      "matched_text": "WhatsApp: +44 7700 900123",
+      "start_index": 527,
+      "end_index": 552,
+      "weight": 15,
+      "recommendation": "Fraudulent listing agents avoid tracked escrow portals and insist on private WhatsApp messaging."
+    }
+  ],
+  "safe_replies": [
+    {
+      "type": "rental_in_person_escrow",
+      "label": "Demand In-Person Walkthrough & Escrow Account",
+      "content": "Thank you for the details. In accordance with standard tenancy regulations, I do not transfer advance deposits prior to an in-person physical inspection and deed verification with the local land registry. Please provide the contact information for your authorized local licensed property management agency."
+    },
+    {
+      "type": "escrow_protection_notice",
+      "label": "Require Verified Bank Escrow",
+      "content": "I require all holding deposits to be placed in an officially bonded state escrow account rather than personal wire transfers or Western Union. Please forward the formal lease documentation through an accredited legal escrow provider."
+    }
+  ],
+  "raw_content": "Dear Prospective Tenant,\n\nThank you for your interest in our furnished 2-bedroom luxury apartment at 440 Park Avenue ($1,200/month all utilities included). The landlord is currently abroad in the United Kingdom on an emergency medical mission and cannot meet in person. To secure this unit immediately, you must wire the first month rent and security deposit of $1,200 before viewing to our Western Union transfer account. Once the wire transfer is confirmed, the keys will be dispatched via FedEx courier directly to your current residence within 24 hours.\n\nContact me on WhatsApp: +44 7700 900123\nDr. Richard Sterling (Owner)\nListing portal: https://parkave-luxury-rentals.top/lease"
+}

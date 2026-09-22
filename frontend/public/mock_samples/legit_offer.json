@@ -1,0 +1,36 @@
+{
+  "scan_id": "kavach-legit-0814c",
+  "timestamp": "2026-09-22T12:10:00Z",
+  "scan_type": "text",
+  "threat_score": 8,
+  "verdict": "SAFE",
+  "verdict_label": "Verified Low-Risk Corporate Communication",
+  "executive_summary": "No scam markers detected. This appointment letter originates from an authentic corporate domain (microsoft.com), conditions hardware delivery via zero-cost internal IT logistics, makes no demands for candidate-borne deposits or wire payments, and utilizes official enterprise onboarding portals.",
+  "breakdown": {
+    "domain_freshness_score": 5,
+    "payment_demands_score": 0,
+    "chat_redirects_score": 0,
+    "free_mailbox_score": 0
+  },
+  "domain_info": {
+    "domain": "careers.microsoft.com",
+    "registrar": "MarkMonitor Inc.",
+    "creation_date": "1991-05-02T04:00:00Z",
+    "age_days": 12920,
+    "is_newly_registered": false,
+    "tld": ".com",
+    "tld_risk": "LOW",
+    "typosquatting_target": null,
+    "similarity_ratio": 1.0,
+    "status_summary": "Verified Enterprise Domain (35+ Years Active)"
+  },
+  "flags": [],
+  "safe_replies": [
+    {
+      "type": "formal_offer_acceptance",
+      "label": "Confirm Official Offer Acceptance",
+      "content": "Thank you for extending this formal offer. I have accessed the secure Microsoft Careers onboarding portal, completed the electronic signature of the employment agreement, and submitted the required onboarding paperwork. I look forward to joining the team."
+    }
+  ],
+  "raw_content": "Dear Alex Henderson,\n\nMicrosoft Corporation is pleased to extend this formal offer of employment for the role of Senior Software Development Engineer II at our Redmond headquarters. Your annualized base salary will be $165,000 USD, accompanied by standard corporate RSUs and comprehensive medical benefits.\n\nAll required enterprise hardware—including your developer workstation laptop, secure YubiKey tokens, and dual monitors—will be provisioned directly by Microsoft IT Global Logistics at zero cost to you, with insured direct courier delivery to your residential address.\n\nPlease review, electronically execute, and confirm your offer acceptance via our secure enterprise candidate portal: https://careers.microsoft.com/us/en/onboarding using your candidate credential token.\n\nSincerely,\nMicrosoft Global Talent Acquisition\nrecruiter-help@microsoft.com\nOne Microsoft Way, Redmond, WA 98052"
+}
