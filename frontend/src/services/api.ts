@@ -3,27 +3,46 @@ import { ScanRequest, ScanResponse, FlagItem, SafeReplyItem, DomainInfo } from '
 const USE_MOCK = import.meta.env.VITE_USE_MOCK !== 'false';
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api/v1';
 
+// Fast client-side scan cache (payload hash -> ScanResponse)
+const _scanCache = new Map<string, ScanResponse>();
+
 // Helper for simulated network latency
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
+function computePayloadHash(payload: ScanRequest): string {
+  return `${payload.scan_type}|${payload.content?.trim()}|${payload.target_url?.trim()}|${payload.sender_email?.trim()}`;
+}
+
 /**
- * Loads pre-configured mock samples directly from static JSON files.
+ * Loads pre-configured mock samples directly from static JSON files with memory caching.
  */
 export async function loadMockSample(sampleKey: 'amazon_scam' | 'rental_deposit' | 'legit_offer'): Promise<ScanResponse> {
-  await delay(450);
+  const cacheKey = `mock_${sampleKey}`;
+  if (_scanCache.has(cacheKey)) {
+    return _scanCache.get(cacheKey)!;
+  }
+
+  await delay(250);
   const response = await fetch(`/mock_samples/${sampleKey}.json`);
   if (!response.ok) {
     throw new Error(`Failed to load mock sample: ${sampleKey}`);
   }
-  return (await response.json()) as ScanResponse;
+  const data = (await response.json()) as ScanResponse;
+  _scanCache.set(cacheKey, data);
+  return data;
 }
 
 /**
  * Main Threat Inspector engine:
- * If backend is configured and mock mode is off, attempts HTTP request.
+ * If backend is configured and mock mode is off, attempts HTTP request with fallback.
  * Otherwise, performs high-precision in-browser cyber heuristic analysis.
  */
 export async function inspectThreat(payload: ScanRequest): Promise<ScanResponse> {
+  const hash = computePayloadHash(payload);
+  if (_scanCache.has(hash)) {
+    return _scanCache.get(hash)!;
+  }
+
   if (!USE_MOCK) {
     try {
       const res = await fetch(`${API_URL}/scan`, {
@@ -32,7 +51,9 @@ export async function inspectThreat(payload: ScanRequest): Promise<ScanResponse>
         body: JSON.stringify(payload),
       });
       if (res.ok) {
-        return (await res.json()) as ScanResponse;
+        const data = (await res.json()) as ScanResponse;
+        _scanCache.set(hash, data);
+        return data;
       }
     } catch (e) {
       console.warn('FastAPI backend unreachable, utilizing local cybersecurity heuristic simulation:', e);
@@ -40,25 +61,27 @@ export async function inspectThreat(payload: ScanRequest): Promise<ScanResponse>
   }
 
   // Simulated SOC network ingestion delay
-  await delay(550);
+  await delay(350);
 
   const text = payload.content || '';
   const url = payload.target_url || '';
   const email = payload.sender_email || '';
 
   // Check if input closely matches our preset samples
+  let result: ScanResponse;
   if (text.includes('Amazon Web Services') || text.includes('amazon.recruitment.desk')) {
-    return loadMockSample('amazon_scam');
-  }
-  if (text.includes('440 Park Avenue') || text.includes('Western Union')) {
-    return loadMockSample('rental_deposit');
-  }
-  if (text.includes('Microsoft Corporation') || text.includes('Alex Henderson')) {
-    return loadMockSample('legit_offer');
+    result = await loadMockSample('amazon_scam');
+  } else if (text.includes('440 Park Avenue') || text.includes('Western Union')) {
+    result = await loadMockSample('rental_deposit');
+  } else if (text.includes('Microsoft Corporation') || text.includes('Alex Henderson')) {
+    result = await loadMockSample('legit_offer');
+  } else {
+    // Real-time dynamic regex heuristics on custom input
+    result = analyzeCustomThreat(text, url, email, payload.scan_type);
   }
 
-  // Real-time dynamic regex heuristics on custom input
-  return analyzeCustomThreat(text, url, email, payload.scan_type);
+  _scanCache.set(hash, result);
+  return result;
 }
 
 /**
@@ -93,7 +116,7 @@ function analyzeCustomThreat(text: string, rawUrl: string, rawEmail: string, sca
         recommendation: 'Legitimate employers never demand refundable deposits, and authentic landlords never request wires prior to physical walkthroughs.',
       });
       paymentScore += rule.wt;
-      break; // One match per category
+      break;
     }
   });
 

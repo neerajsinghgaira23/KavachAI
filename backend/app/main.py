@@ -1,35 +1,38 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.middleware.gzip import GZipMiddleware
 
 from app.config import settings
 from app.api.v1.endpoints import router as api_v1_router
+from app.services.domain_service import close_http_client
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """
     Application lifecycle manager.
-    Handles startup logging, resource allocation, and graceful shutdown.
+    Handles startup initialization and non-blocking resource cleanup.
     """
-    # Startup initialization
     print(f"[+] KavachAI Threat Inspector Engine Initialized (v{settings.DEFAULT_RULES_VERSION})")
-    print(f"[+] RDAP Base: {settings.RDAP_BASE_URL} (Timeout: {settings.RDAP_TIMEOUT_SECONDS}s)")
-    print(f"[+] CORS Allowed Origins: {settings.CORS_ORIGINS}")
+    print(f"[+] High-Speed Concurrency Mode Active")
     yield
     # Shutdown clean up
-    print("[-] KavachAI Threat Inspector Engine Shutting Down Gracefully.")
+    await close_http_client()
+    print("[-] KavachAI Threat Inspector Engine Cleanly Terminated.")
 
 
 app = FastAPI(
     title=settings.APP_NAME,
     version=settings.DEFAULT_RULES_VERSION,
-    description="KavachAI — Single-Page Threat Inspector & Phishing Defense Engine for Advance-Fee Fraud Detection.",
+    description="KavachAI — High-Performance Threat Inspector & Phishing Defense Engine.",
     docs_url="/docs",
     redoc_url="/redoc",
     lifespan=lifespan,
 )
+
+# GZip Compression Middleware (Compresses responses > 1KB)
+app.add_middleware(GZipMiddleware, minimum_size=1000)
 
 # Configure Cross-Origin Resource Sharing (CORS)
 app.add_middleware(
